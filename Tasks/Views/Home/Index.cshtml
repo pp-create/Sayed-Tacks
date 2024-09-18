@@ -1,0 +1,315 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+   <style>
+
+        .color {
+            width: 50px;
+            background-color: #62b3a6;
+            display: inline-block;
+            display: inline-block;
+        }
+
+        .col-1 {
+            writing-mode: vertical-rl;
+        }
+
+        .calendar {
+            margin: 50px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .calendar-header h2 {
+                margin: 0;
+            }
+
+        .calendar-days {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 5px;
+        }
+
+        .calendar-cell {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+            .calendar-cell.current-month {
+                background-color: #f5f5f5;
+            }
+
+        body {
+            direction: rtl;
+        }
+
+        .survey-box {
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .survey-header, .survey-footer {
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            text-align: left;
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .input-group-text {
+            background-color: #62b3a6;
+            color: white;
+        }
+
+        .form-control {
+            border-radius: 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+<body>
+   
+    <div style="padding: 16px;border: 2px silver solid;">
+        <form href="/Home/Index" method="post" onsubmit="return validateForm()">
+     
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"> المحافظه</span>
+                <select class="form-control " id="governorate" name="Government" style="    margin-left: 13px;" aria-describedby="basic-addon1" required>
+                    <option value="">اختر </option>
+                    @foreach (var item in ViewBag.data)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                        
+                    }
+                </select>
+            <span class="input-group-text"  id="basic-addon1"> المدينه</span>
+                <select class="form-control " name="City" id="city" style="    margin-left: 13px;" aria-describedby="basic-addon1" required><option></option></select>
+            <span class="input-group-text"  id="basic-addon1">المنطقه </span>
+                <select class="form-control  " name="area" id="area" style="    margin-left: 13px;" aria-describedby="basic-addon1" required><option></option></select>
+            <span class="input-group-text"  id="basic-addon1"> المنتزه</span>
+                <select class="form-control " name="park" id="park" style="    margin-left: 13px;" aria-describedby="basic-addon1" required><option></option></select>
+
+        </div>
+
+       
+        <div class="calendar">
+            <div class="calendar-header  row">
+
+
+                <div class="calendar-days col-6">
+                    <div class="col-1 color">اليوم</div>
+                        <div style="display: flex;flex-direction: column;"> السبت<input name="Day" value="السبت" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                        <div style="display: flex;flex-direction: column;">الأحد<input name="Day" value="الأحد" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                        <div style="display: flex;flex-direction: column;">الإثنين<input name="Day"  value="الإثنين" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                        <div style="display: flex;flex-direction: column;">الثلاثاء<input name="Day" value="الثلاثاء" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                        <div style="display: flex;flex-direction: column;">الأربعاء<input name="Day" value="الأربعاء" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                        <div style="display: flex;flex-direction: column;">الخميس<input name="Day" value="الخميس" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                </div>
+
+                <div class="calendar-days col-11">
+                    <div class="col-1 color">التاريخ</div>
+                        
+
+                    <div style="display: flex;flex-direction: column;">1  <input name="data" value="1" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">2  <input name="data" value="2" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">3  <input name="data" value="3" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">4  <input name="data" value="4" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">5  <input name="data" value="5" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">6  <input name="data" value="6" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">7  <input name="data" value="7" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">8  <input name="data" value="8" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">9  <input name="data" value="9" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">10 <input name="data"  value="10" onchange="toggleCheckbox(this)"  type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">11 <input name="data" value="11" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">12 <input name="data" value="12" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">13 <input name="data" value="13" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">14 <input name="data" value="14" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">15 <input name="data" value="15" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">16 <input name="data" value="16" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">17 <input name="data" value="17" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">18 <input name="data" value="18" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">19 <input name="data" value="19" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">20 <input name="data" value="20" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">21 <input name="data" value="21" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">22 <input name="data" value="22" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">23 <input name="data" value="23" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">24 <input name="data" value="24" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">25 <input name="data" value="25" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">26 <input name="data" value="26" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">27 <input name="data" value="27" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">28 <input name="data" value="28" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">29 <input name="data" value="29" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">30 <input name="data" value="30" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                    <div style="display: flex;flex-direction: column;">31 <input name="data" value="31" onchange="toggleCheckbox(this)" type="checkbox" /></div>
+                </div>
+
+                <div class="calendar-days col-10">
+                    <div class="col-1 color">
+                        الشهر
+                    </div>
+                      
+                    <div style="display: flex;flex-direction: column;">
+                        يناير
+                            <input value="يناير" name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                        فبراير
+                            <input value="فبراير" name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            مارس <input value="مارس" name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            ابريل <input value="ابريل"  name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            مايو  <input value="مايو"  name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style ="display: flex; flex-direction: column;">
+                            يونيو    <input value="يونيو" name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            يوليو <input value="يوليو"  name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            اغسطس <input value="اغسطس"  name="month" type="checkbox" onchange="toggleCheckbox(this)" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            سبتمبر <input value="سبتمبر" name="month" type="checkbox" />
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        اكتوبر
+                            <input value="اكتوبر" name="month" type="checkbox" />
+                    </div>
+                        <div style ="display: flex; flex-direction: column;">
+                            نوفمبر<input value="نوفمبر" name="month" type="checkbox" />
+                    </div>
+                        <div style="display: flex; flex-direction: column;">
+                            ديسمبر  <input value="ديسمبر" name="month" type="checkbox" />
+                    </div>
+                    <div class="calendar-days col-3">
+                        <div>عام</div>
+                            <div class="" style="display:flex"><input name="year" class="col border-0" type="number"  required/> 20</div>
+                        <div>م</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <label style="text-align:center ; width:100% ;font-size:20px">  نموذج استبيان لي الزوار</label>
+        <div class="row" style="border: 2PX SILVER solid">
+            <div class="col-1" style=" height: 115px">
+                <label style="    text-align: end;
+    background: #62b3a6;
+    height: 115px;
+    width: auto;">الزاير</label>
+
+            </div>
+
+            <div class="col-8">
+
+                <table class="table">
+                    <thead>
+                        <tr style="color:darkblue">
+                            <th scope="col"></th>
+                            <th>راض جداً</th>
+                            <th>راض</th>
+
+                            <th>غير راض جداً</th>
+                            <th>غير راض</th>
+                            <th>محايد</th>
+                            
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <script>
+                                const categories = ['منطقة الخدمات', 'البويات', 'منطقة الأطفال', 'المواقف', 'المظلات', 'الطرق والممرات'];
+                                categories.forEach((category, index) => {
+                                    document.write(`
+                                                        <tr>
+                                                            <th scope="row" style="color: #fff; background-color: #348bb8;">${category}</th>
+                                                            <td><input type="checkbox" name="response[${index}]" value="راض جداً"></td>
+                                                            <td><input type="checkbox" name="response[${index}]" value="راض"></td>
+                                                            <td><input type="checkbox" name="response[${index}]" value="غير راض جداً"></td>
+                                                            <td><input type="checkbox" name="response[${index}]" value="غير راض"></td>
+                                                            <td><input type="checkbox" name="response[${index}]" value="محايد"></td>
+                                                        </tr>
+                                                    `);
+                                });
+                            </script>
+                        </tbody>
+                </table>
+            </div>
+               
+               
+
+            <div class="col-3">
+                <label style="background-color:#62b3a6"> الشكاوي</label>
+                    <textarea cols="25" name="Reasons" rows="13"></textarea>
+            </div>
+
+        </div>
+           <div class=" row p-1">
+                
+           <div class="col-3"></div>
+           
+                <div class="col-3">
+                    <label style="color:red">@ViewBag.massage</label>
+                    <label style="color:greenyellow">@ViewBag.done</label>
+
+                    <input type="submit" style="float: inline-end;" class=" btn btn-info m-auto" value="تاكيد الاستبيان" />
+                </div>
+           <div class="col-3"></div>
+               
+            </div>
+       
+        </form>
+
+    </div>
+    <script src="~/js/site.js"></script>
+    
+  
+
+       
+</body>
+</html>
+<script>
+    
+</script>
